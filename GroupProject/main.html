@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content+"width = device-width, initial-scale = 1">
+		<title>Example Webpage</title>
+		
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="fontAwesome/fontawesome-all.css">
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Raleway|Yanone+Kaffeesatz" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Pacifico|Pathway+Gothic+One" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Economica|Open+Sans+Condensed:700|Open+Sans:300|Raleway:600|Roboto+Condensed" rel="stylesheet">
+	</head>
+	<body onresize="resizeFunction()">
+		<div class="transactionFormWrapper col-lg-4 col-md-4 col-sm-6 col-xs-6" id="addTransactionForm">
+			<form>
+					<div class="form-group transactionEntry col-lg-10 offset-lg-1">
+						<label for="formGroupExampleInput">Name of Stock</label>
+						<input type="text" class="form-control" id="formGroupExampleInput" placeholder="E.g. Amazon">
+					</div>
+					<div class="form-group transactionEntry col-lg-10 offset-lg-1">
+						<label for="formGroupExampleInput2">Price</label>
+						<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Input the value in £ of the stock at time of purchase">
+					</div>
+					<div class="form-group transactionEntry col-lg-10 offset-lg-1">
+						<label for="formGroupExampleInput2">Amount purchased</label>
+						<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Number of stocks bought">
+					</div>
+					<button type="submit" class="btn btn-primary transactionButton col-lg-10 offset-lg-1" id="buyButton">Submit</button>
+			</form>
+		</div>
+		<div class="transactionFormWrapper col-lg-3 col-md-3 col-sm-6 col-xs-6 offset-lg-9 offset-md-9 offset-sm-6 offset-xs-6" id="removeTransactionForm">
+			<form>
+					<div class="form-group transactionEntry col-lg-10 offset-lg-1">
+						<label for="formGroupExampleInput">Name of Stock</label>
+						<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter a stock name e.g. Amazon">
+					</div>
+					<div class="form-group transactionEntry col-lg-10 offset-lg-1">
+						<label for="formGroupExampleInput2">Amount sold/removed</label>
+						<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Enter the amount of the stock you wish to remove">
+					</div>
+					<button type="submit" class="btn btn-primary transactionButton col-lg-10 offset-lg-1" id="sellButton">Submit</button>
+			</form>
+		</div>
+		<div class="headerContainer">
+			<div class="dashboardHeader container-fluid">
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" id="addTransaction" onclick="transactionClick('addTransaction')" onmouseover="transactionMouseOver('addTransaction')" onmouseout="transactionMouseOut('addTransaction')">
+						<h1 id="addTransactionBanner">Add Transaction</h1>
+					</div>
+					<div class="col-lg-4 col-md-4 d-none d-md-block" id="dashboardHeading">
+						<span>Tracker</span>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" id="chatbotToggle" onmouseover="transactionMouseOver('chatbotToggle')" onmouseout="transactionMouseOut('chatbotToggle')">
+						<span id="chatbotToggleSpan" onclick="chatbotToggle()">Click here to speak to the bot</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="dashboardContainer">
+			<div class="container-fluid dashboard">
+				<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+				  <div class="carousel-inner">
+					<div id="carouselButtons">
+						<i id = "pauseButton" onclick="buttonClick('pauseButton')" onmouseover="buttonMouseOver('pauseButton')" onmouseout="buttonMouseOff('pauseButton')" class="fas fa-pause"></i>
+						<i id = "playButton" onclick="buttonClick('playButton')" onmouseover="buttonMouseOver('playButton')" onmouseout="buttonMouseOff('playButton')" class="fas fa-play"></i>
+					</div>
+					<div class="carousel-item active">
+					 <div class="dashboardHeadline">
+							<p id="bestStock">Portfolio Overview</p>
+						</div>
+						<div class="dashboardContent row">
+							<div class="graphicContent col-lg-6 col-md-12 col-sm-12 col-xs-12">
+								<canvas id="portfolioPieChart" style="max-width: 390px; max-height: 390px;"></canvas>
+							</div>
+							<div class="col-lg-6 col-md-0 d-none d-md-block">
+							  <div class="row">
+								<div class="col-lg-6 col-md-12">
+								  <div class="stockInfo col-lg-12 col-md-12 ">
+								<p>Amazon: +1.2%</p>
+								  </div>
+								</div>
+								<div class="col-lg-6 col-md-12">
+								  <div class="stockInfo col-lg-12 col-md-12">
+								<p>BT: -1.2%</p>
+								  </div>
+								</div>
+								<div class="col-lg-6 col-md-12">
+								  <div class="stockInfo col-lg-12 col-md-12">
+								<p>FTSE: +1.2%</p>
+								  </div>
+								</div>
+								<div class="col-lg-6 col-md-12">
+								  <div class="stockInfo col-lg-12 col-md-12">
+								</div>
+								</div>
+							  </div>    
+							</div>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<div class="dashboardHeadline">
+							<p id="bestStock">Best performing stock over past 24 hrs - BTC</p>
+						</div>
+						<div class="dashboardContent row">
+							<div class="graphicContent col-lg-8 col-md-12 col-sm-12 col-xs-12">
+							  <canvas id="bestLine-chart" class="col-lg-12" style="max-height: 390px"></canvas>
+							</div>
+							<div class="col-md-4 d-none d-md-block">
+								<div class="row">
+								  <div class="col-lg-6 col-md-12">
+									<div class="dashboardNews col-lg-12 col-md-12 ">
+									  Altaba, the former Yahoo, could be a beneficiary of a lower corporate tax rate because it would reduce the tax
+									</div>
+								  </div>
+								  <div class="col-lg-6 col-md-12">
+									<div class="dashboardNews col-lg-12 col-md-12">
+									  China’s Tech Sector Has Left Its Copycat Phase Far Behind It
+									</div>
+								  </div>
+								  <div class="col-lg-6 col-md-12">
+									<div class="dashboardNews col-lg-12 col-md-12">
+									  Karim Baratov pleaded guilty to charges returned by a grand jury in the Northern District of California in February for hacking email accounts
+									</div>
+								  </div>
+								  <div class="col-lg-6 col-md-12">
+								<div class="dashboardNews col-lg-12 col-md-12">
+								  Jan.10 -- Oath CEO Tim Armstrong discusses a deal to stream NFL playoff games on Yahoo Sports and
+								</div>
+								  </div>
+							  </div>  
+							</div>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<div class="dashboardHeadline">
+							<p id="worstStock">Worst performing stock over past 24 hrs - RTS</p>
+						</div>
+						<div class="dashboardContent row">
+							<div class="graphicContent col-lg-8 col-md-12 col-sm-12 col-xs-12">
+							  <canvas id="worstLine-chart2" class="col-lg-12" style="max-height: 390px; display: block;"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<ol class="carousel-indicators">
+					<li data-target="#carouselExampleSlidesOnly" data-slide-to="0" class="active"></li>
+					<li data-target="#carouselExampleSlidesOnly" data-slide-to="1"></li>
+					<li data-target="#carouselExampleSlidesOnly" data-slide-to="2"></li>
+				</ol>
+			</div>
+			</div>
+		</div>
+	    <div class="container" id="newsSection">
+		<div id="newsHeading">
+		  NEWS
+		</div>
+		  <div class="row">
+		    <div class="article col-lg-11 col-md-11 col-sm-10 col-xs-10">
+			<div class="newsHeader">
+			  <h1>Amazon Price fluctuates</h1>
+			</div>
+			<div class="newsContent"> Amazon stock prices fluctuate after recent volatility in the stock market
+			</div>
+		    </div>
+		    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+				<i class="newsLink fas fa-external-link-square-alt" onmouseover="linkMouseOver('news1')" onmouseout="linkMouseOff('news1')" style="font-size:48px;color:#191919" id = "news1"></i>
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="article col-lg-11 col-md-11 col-sm-10 col-xs-10">
+			<div class="newsHeader">
+			  <h1>BT price holds strong</h1>
+			</div>
+			<div class="newsContent">
+			  Despite recent volatility the price of BT shares are holding their own against the rest of the market
+			</div>
+		    </div>
+		    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+		      <i class="newsLink fas fa-external-link-square-alt" onmouseover="linkMouseOver('news2')" onmouseout="linkMouseOff('news2')" style="font-size:48px;color:#191919" id = "news2"></i>
+		    </div>
+		  </div>
+	    </div>
+	    
+		<div class="container-fluid" id ="chatbotWrapper">
+			<p align="center" id="botCenter">
+				<iframe id="chatbot" width="80%" height="100%" style="margin: 0 auto;" src="https://console.dialogflow.com/api-client/demo/embedded/d92c9581-67db-48af-bb53-954aeb4bdc81"></iframe>
+			</p>
+		</div>
+
+	
+	
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
+	
+	</body>
+</html>
